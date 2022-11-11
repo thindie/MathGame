@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">MathGame</string>
+    <string name="welcum">П Р И В Е Т!</string>
+    <string name="welcum_2">Сыграем
+         "Состав Числа"</string>
+    <string name="forward">ВПЕРЕД</string>
+    <string name="quot_main_screen_quot">\"main_screen\"</string>
+    <string name="chose_level">Выберите уровень:</string>
 </resources>
