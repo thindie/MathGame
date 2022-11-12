@@ -11,22 +11,24 @@
         android:layout_height="wrap_content"
         android:contentDescription="@string/quot_main_screen_quot"
         android:longClickable="false"
+        android:src="@drawable/main"
+        app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/guideline"
-        app:layout_wrapBehaviorInParent="vertical_only"
-        android:src="@drawable/chippo" />
+        app:layout_wrapBehaviorInParent="vertical_only" />
 
     <TextView
         android:id="@+id/welcum"
+        style="@style/QuestionTextStyle"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:gravity="center"
         android:text="@string/welcum"
         android:textColor="#039BE5"
-        android:textSize="24sp"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/guideline" />
 
@@ -34,6 +36,8 @@
         android:id="@+id/Okay_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="#1610C3"
+        style="@style/QuestionTextStyle"
         android:text="@string/forward"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
