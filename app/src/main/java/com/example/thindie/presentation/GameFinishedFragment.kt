@@ -6,8 +6,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
-import com.example.thindie.R
+import androidx.fragment.app.FragmentManager
 import com.example.thindie.databinding.FragmentGameFinishedBinding
 import com.example.thindie.domain.entity.GameResult
 
@@ -29,18 +30,39 @@ class GameFinishedFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        gameResult = arguments?.get(GAME_RESULT) as GameResult
+        gameResult = requireArguments()
+            .getParcelable<GameResult>(GAME_RESULT) as GameResult
 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.buttonRetry.setOnClickListener { tryAgain() }
+        fixingOnBackPress()
+        settingOnClickListeners()
+
     }
 
-    private fun tryAgain(){
+    private fun settingOnClickListeners() {
+       with(binding){
+           buttonRetry.setOnClickListener(){
+               tryAgain()
+           }
+       }
+    }
+
+    private fun fixingOnBackPress() {
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    tryAgain()
+                }
+            }
+        )
+    }
+
+    private fun tryAgain() {
         requireActivity().supportFragmentManager
-            .popBackStack(ChooseLevelFragment.NAME, 0)
+            .popBackStack(GameFragment.NAME, FragmentManager.POP_BACK_STACK_INCLUSIVE)
     }
 
     companion object {
@@ -48,7 +70,7 @@ class GameFinishedFragment : Fragment() {
         fun gameFinished(gameResult: GameResult): GameFinishedFragment {
             return GameFinishedFragment().apply {
                 arguments = Bundle().apply {
-                    putSerializable(GAME_RESULT,gameResult)
+                    putParcelable(GAME_RESULT, gameResult)
                 }
             }
         }

@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.example.thindie.R
 import com.example.thindie.data.GameRepositoryImpl
 import com.example.thindie.databinding.InGameFragmentBinding
@@ -19,6 +20,7 @@ import com.example.thindie.domain.entity.GameSettings
 import com.example.thindie.domain.entity.Level
 
 class GameFragment : Fragment() {
+    private lateinit var viewModel: GameFragmentViewModel
     private var _binding: InGameFragmentBinding? = null
     private val binding: InGameFragmentBinding
         get() = _binding ?: throw RuntimeException("binding == null")
@@ -37,7 +39,7 @@ class GameFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        level = requireArguments().getSerializable(LEVEL_KEY) as Level
+        level = requireArguments().getParcelable<Level>(LEVEL_KEY) as Level
         parseGameLevel(level)
     }
 
@@ -48,73 +50,71 @@ class GameFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel = ViewModelProvider(this)[GameFragmentViewModel::class.java]
         settingTimer()
-        //playingTheGame()
+        settingPlayingScreen()
+        setAllOnClickListeners()
     }
 
-    private fun playingTheGame() {
-        val sum = gameSettings.theBiggestPossibleValue
-        val minAnswers = gameSettings.minimumRightAnswersCountToWin
-        val percentage = gameSettings.minimumPercentageOfRightQuestionsToWin
-
-        var countAnswers = 0
-        var successfulAnswers = 0
-
-        while (true) {
-            val question = GameRepositoryImpl
-                .generateQuestion(sum, COUNT_OF_OPTIONS)
-
-            val fragmentSum = question.sumInQuestion
-            binding.sum.text = fragmentSum.toString()
-            binding.visibleNumber.text = question
-                .firstSumNumber.toString()
-
-            val buttons = ArrayList<TextView>()
-
-                with(binding) {
-                    buttons.add(OPTONE)
-                    buttons.add(OPTTWO)
-                    buttons.add(OPTTHREE)
-                    buttons.add(OPTFOUR)
-                    buttons.add(OPTFIVE)
-                    buttons.add(OPTSIX)
-                }
-
-
-            for (it in 0 until buttons.size) {
-                with(buttons[it]) {
-                    text = question.answerOptions[it].toString()
-                    setOnClickListener() {
-                        if (text.toString().toInt()
-                            == question.secondSumNumberInvisible
-                        ) {
-                            successfulAnswers++
-                            countAnswers++
-                        }
-                        else countAnswers++
-                    }
-
-
-                }
-            }
+    private fun settingListenersForGame(textView: TextView) {
+        textView.setOnClickListener() {
+            viewModel.onCLickParse(textView)
+            settingPlayingScreen()
         }
     }
 
+    private fun setAllOnClickListeners() {
+        with(binding) {
+            settingListenersForGame(OPTONE)
+            settingListenersForGame(OPTTWO)
+            settingListenersForGame(OPTTHREE)
+            settingListenersForGame(OPTFOUR)
+            settingListenersForGame(OPTFIVE)
+            settingListenersForGame(OPTSIX)
+
+        }
+
+    }
+
+    private fun settingPlayingScreen() {
+        viewModel.settingGameViewDependOn(level)
+        viewModel.settingButtonsView(binding)
+        with(viewModel) {
+            buttonOne.observe(viewLifecycleOwner) {
+                binding.OPTONE.text = it.text
+            }
+            buttonTwo.observe(viewLifecycleOwner) {
+                binding.OPTTWO.text = it.text
+            }
+            buttonThree.observe(viewLifecycleOwner) {
+                binding.OPTTHREE.text = it.text
+            }
+            buttonFour.observe(viewLifecycleOwner) {
+                binding.OPTFOUR.text = it.text
+            }
+            buttonFive.observe(viewLifecycleOwner) {
+                binding.OPTFIVE.text = it.text
+            }
+            buttonSix.observe(viewLifecycleOwner) {
+                binding.OPTSIX.text = it.text
+            }
+
+        }
+
+    }
+
     private fun settingTimer() {
-        val timer = gameSettings.gameTimeInSeconds * GAME_SETTINGS_TIMER_MULTIPLIER
-        object : CountDownTimer(timer, GAME_SETTINGS_TIMER_MULTIPLIER) {
+        val timer = gameSettings.gameTimeInSeconds * GAME_VIEW_MODEL_TIMER_MULTIPLIER
+        object : CountDownTimer(timer, GAME_VIEW_MODEL_TIMER_MULTIPLIER) {
             @SuppressLint("SetTextI18n")
             override fun onTick(timer: Long) {
-                binding.timeCount.text = "0:" + timer / GAME_SETTINGS_TIMER_MULTIPLIER
+                binding.timeCount.text = "0:" + timer / GAME_VIEW_MODEL_TIMER_MULTIPLIER
             }
 
             override fun onFinish() {
-                binding.timeCount.text = "0:00"
-
+                binding.timeCount.text = "0:0"
                 launchGameFinishFragment()
-
             }
-
         }.start()
     }
 
@@ -129,34 +129,31 @@ class GameFragment : Fragment() {
 
     private fun parseGameLevel(level: Level) {
 
-        when (level) {
+        gameSettings = when (level) {
             Level.TEST -> {
-                gameSettings = gameRepository.getGameSettings(Level.TEST)
+                gameRepository.getGameSettings(Level.TEST)
             }
             Level.EASY -> {
-                gameSettings = gameRepository.getGameSettings(Level.EASY)
+                gameRepository.getGameSettings(Level.EASY)
             }
             Level.NORMAL -> {
-                gameSettings = gameRepository.getGameSettings(Level.NORMAL)
+                gameRepository.getGameSettings(Level.NORMAL)
             }
             Level.HARD -> {
-                gameSettings = gameRepository.getGameSettings(Level.HARD)
-            }
-            else -> {
-                throw RuntimeException("Level Unknown")
+                gameRepository.getGameSettings(Level.HARD)
             }
         }
     }
 
     companion object {
-        private const val GAME_SETTINGS_TIMER_MULTIPLIER = 1000L
-        private const val COUNT_OF_OPTIONS = 6
+        private const val GAME_VIEW_MODEL_TIMER_MULTIPLIER = 1000L
+        const val NAME = "this_fragment_name"
         private const val LEVEL_KEY = "level"
         private val gameRepository = GameRepositoryImpl
         fun gameStarted(level: Level): GameFragment {
             return GameFragment().apply {
                 arguments = Bundle().apply {
-                    putSerializable(LEVEL_KEY, level)
+                    putParcelable(LEVEL_KEY, level)
                 }
             }
         }

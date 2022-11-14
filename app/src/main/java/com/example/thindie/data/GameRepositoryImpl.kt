@@ -1,5 +1,6 @@
 package com.example.thindie.data
 
+import android.util.Log
 import com.example.thindie.domain.entity.GameSettings
 import com.example.thindie.domain.entity.Level
 import com.example.thindie.domain.entity.Question
@@ -9,6 +10,7 @@ import kotlin.random.Random
 object GameRepositoryImpl : GameRepository {
     private const val MIN_SUM_VALUE = 2
     private const val MIN_ANSWER_VALUE = 1
+
 
     override fun generateQuestion(
         theBiggestPossibleValue: Int,
@@ -33,6 +35,7 @@ object GameRepositoryImpl : GameRepository {
                 answerOptions.add(it)
             }
         }
+        Log.d("AnswerOptionsInQuestion", "is ${answerOptions.size}")
         return Question(sum, visibleNumber, answer, answerOptions.toList())
     }
 
