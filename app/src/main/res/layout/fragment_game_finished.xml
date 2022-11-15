@@ -13,8 +13,9 @@
         android:layout_width="409dp"
         android:layout_height="0dp"
         android:layout_margin="48dp"
-        android:contentDescription="GAME OVER"
+        android:backgroundTint="#90CAF9"
         android:src="@drawable/sad"
+        android:contentDescription="GAME OVER"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -24,19 +25,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
+        android:layout_marginTop="16dp"
         android:text="необходимое количество правильных ответов %s"
         android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@id/image_result"
-        app:layout_constraintVertical_chainStyle="packed" />
+        app:layout_constraintTop_toBottomOf="@+id/image_result"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:layout_editor_absoluteX="16dp" />
 
     <TextView
         android:id="@+id/tv_score_answers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
+        android:layout_marginTop="16dp"
         android:text="Ваш счет: %s"
         android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@id/tv_required_answers" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_required_answers"
+        tools:layout_editor_absoluteX="16dp" />
 
     <TextView
         android:id="@+id/tv_required_percentage"
@@ -45,7 +50,8 @@
         android:layout_margin="16dp"
         android:text="Необходимый процент правильных ответов %s"
         android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@id/tv_score_answers" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_score_answers"
+        tools:layout_editor_absoluteX="16dp" />
 
     <TextView
         android:id="@+id/tv_score_percentage"
@@ -61,11 +67,16 @@
     <Button
         android:id="@+id/button_retry"
         style="@style/OptionTextStyle"
-        android:layout_width="match_parent"
-        android:backgroundTint="@color/purple_700"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="попробовать снова"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        android:layout_marginTop="45dp"
+        android:backgroundTint="#90CAF9"
+        android:text="try again"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_required_percentage"
+        app:layout_constraintVertical_bias="1.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

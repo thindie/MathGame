@@ -5,16 +5,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.thindie.R
 import com.example.thindie.databinding.FragmentWelcomeBinding
 
 class WelcomeFragment : Fragment() {
 
-    private  var _binding: FragmentWelcomeBinding? = null
-    private  val binding: FragmentWelcomeBinding
-    get() = _binding ?: throw RuntimeException("binding = null")
+    private var _binding: FragmentWelcomeBinding? = null
+    private val binding: FragmentWelcomeBinding
+        get() = _binding ?: throw RuntimeException("binding = null")
 
 
     override fun onCreateView(
@@ -27,6 +26,7 @@ class WelcomeFragment : Fragment() {
     }
 
     override fun onAttach(context: Context) {
+
         super.onAttach(context)
     }
 
@@ -37,7 +37,7 @@ class WelcomeFragment : Fragment() {
         }
     }
 
-    private fun launchChooseLevelFragment(){
+    private fun launchChooseLevelFragment() {
         requireActivity().supportFragmentManager.popBackStack()
         requireActivity().supportFragmentManager.beginTransaction()
             .addToBackStack(ChooseLevelFragment.NAME)
@@ -50,8 +50,9 @@ class WelcomeFragment : Fragment() {
         _binding = null
     }
 
-    companion object{
-        fun welcomeInstance() : WelcomeFragment{
+    companion object {
+        const val NAME = "wfname"
+        fun welcomeInstance(): WelcomeFragment {
             return WelcomeFragment()
         }
     }
