@@ -9,10 +9,12 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import com.example.thindie.R
 import com.example.thindie.databinding.FragmentGameFinishedBinding
 import com.example.thindie.domain.entity.GameResult
 
 class GameFinishedFragment : Fragment() {
+    private val gameFinishedViewModel = GameFinishedViewModel()
     private var _binding: FragmentGameFinishedBinding? = null
     private val binding: FragmentGameFinishedBinding
         get() = _binding ?: throw RuntimeException("Binding == null")
@@ -22,7 +24,7 @@ class GameFinishedFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentGameFinishedBinding.inflate(inflater, container, false)
 
         return binding.root
@@ -36,18 +38,45 @@ class GameFinishedFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         super.onViewCreated(view, savedInstanceState)
+        gameFinishedViewModel.settingGameResult(gameResult)
         fixingOnBackPress()
         settingOnClickListeners()
+        settingFinishScreenView()
+
 
     }
 
+    private fun settingFinishScreenView() {
+        gameFinishedViewModel.settingFields(binding)
+        gameFinishedViewModel.settingPicture(binding)
+        with(gameFinishedViewModel) {
+            neededPercent.observe(viewLifecycleOwner) {
+                binding.tvRequiredPercentage.text = it.text
+            }
+            neededAnswersCount.observe(viewLifecycleOwner) {
+                binding.tvRequiredAnswers.text = it.text
+            }
+            fieldOfScore.observe(viewLifecycleOwner) {
+                binding.tvScoreAnswers.text = it.text
+            }
+            image.observe(viewLifecycleOwner) {
+                if (image.value == true) {
+                    binding.imageResult.setImageResource(R.drawable.happy)
+                } else {
+                    binding.imageResult.setImageResource(R.drawable.sad)
+                }
+            }
+        }
+    }
+
     private fun settingOnClickListeners() {
-       with(binding){
-           buttonRetry.setOnClickListener(){
-               tryAgain()
-           }
-       }
+        with(binding) {
+            buttonRetry.setOnClickListener {
+                tryAgain()
+            }
+        }
     }
 
     private fun fixingOnBackPress() {

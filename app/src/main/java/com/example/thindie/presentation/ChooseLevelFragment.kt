@@ -51,10 +51,6 @@ class ChooseLevelFragment : Fragment() {
             clickOnLevel = Level.EASY
             launchGameFragment(clickOnLevel)
         }
-        binding.buttonLevelTest.setOnClickListener {
-            clickOnLevel = Level.TEST
-            launchGameFragment(clickOnLevel)
-        }
         binding.buttonLevelMedium.setOnClickListener {
             clickOnLevel = Level.NORMAL
             launchGameFragment(clickOnLevel)

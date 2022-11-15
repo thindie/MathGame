@@ -1,5 +1,6 @@
 package com.example.thindie.presentation
 
+import android.annotation.SuppressLint
 import android.util.Log
 import android.widget.TextView
 import androidx.core.widget.ContentLoadingProgressBar
@@ -65,6 +66,13 @@ class GameFragmentViewModel : ViewModel() {
     val sum: LiveData<TextView>
         get() = _sum
 
+    fun countOfRightAnswers() : Int{
+        return successfulAnswers
+    }
+    fun countOfAllAnswers() : Int{
+        return countOfAnswers
+    }
+
     fun settingButtonsView(binding: InGameFragmentBinding) {
 
         with(binding) {
@@ -89,11 +97,24 @@ class GameFragmentViewModel : ViewModel() {
 
     }
 
-    private fun settingStringResultsView() {
-
+    @SuppressLint("SetTextI18n")
+    fun settingStringResultsView(binding: InGameFragmentBinding) {
+        with(binding){
+            _textOfProgress.value = answersProgress.apply {
+                text = "Правильных ответов $successfulAnswers, (минимум ${gameSettings!!
+                    .minimumRightAnswersCountToWin})"
+            }
+        }
     }
 
-    private fun settingProgressBar() {
+     fun settingProgressBar(binding: InGameFragmentBinding) {
+        with(binding){
+            _progressBar.value = contentLoadingProgressBar.apply {
+                this.max = gameSettings!!.minimumRightAnswersCountToWin
+                this.incrementProgressBy(successfulAnswers)
+
+            }
+        }
 
     }
 

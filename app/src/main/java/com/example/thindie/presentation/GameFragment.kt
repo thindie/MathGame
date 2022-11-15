@@ -10,7 +10,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import com.example.thindie.R
 import com.example.thindie.data.GameRepositoryImpl
@@ -41,6 +43,7 @@ class GameFragment : Fragment() {
         super.onAttach(context)
         level = requireArguments().getParcelable<Level>(LEVEL_KEY) as Level
         parseGameLevel(level)
+
     }
 
     override fun onPause() {
@@ -49,12 +52,14 @@ class GameFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        fixingOnBackPress()
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this)[GameFragmentViewModel::class.java]
         settingTimer()
         settingPlayingScreen()
         setAllOnClickListeners()
     }
+
 
     private fun settingListenersForGame(textView: TextView) {
         textView.setOnClickListener() {
@@ -98,7 +103,14 @@ class GameFragment : Fragment() {
             buttonSix.observe(viewLifecycleOwner) {
                 binding.OPTSIX.text = it.text
             }
-
+        }
+        viewModel.settingStringResultsView(binding)
+        viewModel.textOfProgress.observe(viewLifecycleOwner) {
+            binding.answersProgress.text = it.text
+        }
+        viewModel.settingProgressBar(binding)
+        viewModel.progressBar.observe(viewLifecycleOwner){
+            binding.contentLoadingProgressBar.progress = it.progress
         }
 
     }
@@ -113,13 +125,21 @@ class GameFragment : Fragment() {
 
             override fun onFinish() {
                 binding.timeCount.text = "0:0"
-                launchGameFinishFragment()
+
+                val rightAnswers = viewModel.countOfRightAnswers()
+                val allAnswers = viewModel.countOfAllAnswers()
+                gameResult= GameResult(
+                    true,
+                    rightAnswers,
+                    gameSettings,
+                    allAnswers
+                )
+                launchGameFinishFragment(gameResult)
             }
         }.start()
     }
 
-    private fun launchGameFinishFragment() {
-        gameResult = GameResult(true, 90, gameSettings, 20)
+    private fun launchGameFinishFragment(gameResult: GameResult) {
         val gameFinish = GameFinishedFragment.gameFinished(gameResult)
         requireActivity().supportFragmentManager.beginTransaction()
             .addToBackStack("")
@@ -130,9 +150,6 @@ class GameFragment : Fragment() {
     private fun parseGameLevel(level: Level) {
 
         gameSettings = when (level) {
-            Level.TEST -> {
-                gameRepository.getGameSettings(Level.TEST)
-            }
             Level.EASY -> {
                 gameRepository.getGameSettings(Level.EASY)
             }
@@ -162,5 +179,22 @@ class GameFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun fixingOnBackPress() {
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    tryAgain()
+                }
+            }
+        )
+    }
+
+    private fun tryAgain() {
+        requireActivity().supportFragmentManager.popBackStack(
+            WelcomeFragment.NAME,
+            FragmentManager.POP_BACK_STACK_INCLUSIVE
+        )
     }
 }

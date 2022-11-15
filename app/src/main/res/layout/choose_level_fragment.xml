@@ -3,10 +3,10 @@
 
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:name="com.example.thindie.presentation.ChooseLevelFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:name="com.example.thindie.presentation.ChooseLevelFragment"
     tools:context=".presentation.ChooseLevelFragment">
 
     <TextView
@@ -16,19 +16,19 @@
         android:layout_margin="16dp"
         android:text="@string/chose_level"
         android:textSize="24sp"
-        android:textStyle="bold"
-        />
-    
+        android:textStyle="bold" />
+
     <Button
         android:id="@+id/button_level_test"
         android:layout_width="match_parent"
-        android:background="@color/purple_500"
-        android:focusable="true"
-        android:clickable="true"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:text="тестовый"/>
+        android:background="@color/purple_500"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="тестовый"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/button_level_easy"
@@ -37,25 +37,25 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:backgroundTint="@android:color/holo_green_light"
-        android:text="легкий"/>
+        android:text="легкий" />
 
     <Button
         android:id="@+id/button_level_medium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:backgroundTint="@android:color/holo_orange_light"
         android:layout_marginEnd="16dp"
-        android:text="средний"/>
+        android:backgroundTint="@android:color/holo_orange_light"
+        android:text="средний" />
 
     <Button
         android:id="@+id/button_level_hard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@android:color/holo_red_light"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:text="тяжелый"/>
+        android:backgroundTint="@android:color/holo_red_light"
+        android:text="тяжелый" />
 
 
-    </LinearLayout>
+</LinearLayout>
