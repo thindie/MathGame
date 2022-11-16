@@ -8,7 +8,4 @@
     tools:context=".presentation.MainActivity"
     android:name="com.example.thindie.presentation.WelcomeFragment"
     tools:layout="@layout/welcome_fragment">
-
-
-
 </androidx.fragment.app.FragmentContainerView>

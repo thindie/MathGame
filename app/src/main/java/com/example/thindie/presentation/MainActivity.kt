@@ -2,12 +2,11 @@ package com.example.thindie.presentation
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.thindie.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        supportFragmentManager.beginTransaction()
-            .add(WelcomeFragment(), null)
-            .commit()
+        setContentView(R.layout.activity_main)
     }
 }
