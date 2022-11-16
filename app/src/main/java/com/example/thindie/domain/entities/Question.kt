@@ -1,6 +1,6 @@
 package com.example.thindie.domain.entities
 
- class Question(
+class Question(
     val sum: Int,
     val visibleNumber: Int,
     val solution: Int,
