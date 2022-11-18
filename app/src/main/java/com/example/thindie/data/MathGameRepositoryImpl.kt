@@ -1,5 +1,6 @@
 package com.example.thindie.data
 
+import android.util.Log
 import com.example.thindie.domain.entities.GameSettings
 import com.example.thindie.domain.entities.Level
 import com.example.thindie.domain.entities.Question
@@ -11,7 +12,7 @@ object MathGameRepositoryImpl : MathGameRepository {
         return when (level) {
             Level.TEST -> {
                 GameSettings(
-                    5,
+                    7,
                     3,
                     50,
                     Level.TEST
@@ -60,8 +61,11 @@ object MathGameRepositoryImpl : MathGameRepository {
                 HARD
             }
         }
-        val sum = Random().nextInt(range) + MIN_VALUE
-        val visibleNumber = (sum + MIN_VALUE) - Random().nextInt(sum) + MIN_VALUE
+        val sum = (Random().nextInt(range) + MIN_VALUE)*2
+        var visibleNumber = (sum + MIN_VALUE) - Random().nextInt(sum - MIN_VALUE)
+        while(visibleNumber < MIN_VALUE){
+            visibleNumber++
+        }
         val solution = sum - visibleNumber
         val list = hashSetOf<Int>()
         list.add(solution)
@@ -69,9 +73,10 @@ object MathGameRepositoryImpl : MathGameRepository {
         for (it in solution until solution + 3) {
             list.add(it)
         }
-        for (it in solution until solution - 4) {
+        for (it in solution downTo  solution - 3) {
             list.add(it)
         }
+        Log.d("LLIST.SIZE","${list.size}")
         return Question(
             sum,
             visibleNumber,
@@ -81,9 +86,9 @@ object MathGameRepositoryImpl : MathGameRepository {
     }
 
     private const val MIN_VALUE = 2
-    private const val TEST = 8
-    private const val EASY = 10
-    private const val NORMAL = 20
-    private const val HARD = 30
+    private const val TEST = 5
+    private const val EASY = 8
+    private const val NORMAL = 15
+    private const val HARD = 20
 
 }
