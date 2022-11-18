@@ -10,14 +10,7 @@ import java.util.*
 object MathGameRepositoryImpl : MathGameRepository {
     override fun getGameSettingsUseCase(level: Level): GameSettings {
         return when (level) {
-            Level.TEST -> {
-                GameSettings(
-                    7,
-                    3,
-                    50,
-                    Level.TEST
-                )
-            }
+
             Level.EASY -> {
                 GameSettings(
                     25,
@@ -48,9 +41,7 @@ object MathGameRepositoryImpl : MathGameRepository {
     override fun setQuestionUseCase(level: Level): Question {
 
         val range = when (level) {
-            Level.TEST -> {
-                TEST
-            }
+
             Level.EASY -> {
                 EASY
             }
@@ -76,7 +67,7 @@ object MathGameRepositoryImpl : MathGameRepository {
         for (it in solution downTo  solution - 3) {
             list.add(it)
         }
-        Log.d("LLIST.SIZE","${list.size}")
+
         return Question(
             sum,
             visibleNumber,
@@ -86,7 +77,7 @@ object MathGameRepositoryImpl : MathGameRepository {
     }
 
     private const val MIN_VALUE = 2
-    private const val TEST = 5
+
     private const val EASY = 8
     private const val NORMAL = 15
     private const val HARD = 20
