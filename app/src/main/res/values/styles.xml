@@ -40,4 +40,5 @@
         <item name = "android:gravity">center</item>
         <item name = "android:textStyle">bold</item>
     </style>
+    style="?android:attr/android:progressBarStyleHorizontal"
 </resources>

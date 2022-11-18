@@ -1,7 +1,10 @@
 package com.example.thindie.presentation
 
+import android.content.Context
+import android.os.Bundle
 import android.os.CountDownTimer
 import android.widget.ProgressBar
+import androidx.core.widget.ContentLoadingProgressBar
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,6 +15,7 @@ import com.example.thindie.domain.entities.Question
 import com.example.thindie.domain.useCase.GetQuestionUseCase
 
 class PlayViewModel : ViewModel() {
+
     private lateinit var gameSetting: GameSettings
     private lateinit var level: Level
     private val repository = MathGameRepositoryImpl
@@ -28,6 +32,9 @@ class PlayViewModel : ViewModel() {
     private var countOfAnswers: Int = TO_BE_ITERABLE
     private var answered: Int = TO_BE_ITERABLE
 
+    private val _stringInfo = MutableLiveData<String>()
+    val stringInfo: LiveData<String>
+        get() = _stringInfo
 
     private val _time = MutableLiveData<String>()
     val time: LiveData<String>
@@ -41,9 +48,13 @@ class PlayViewModel : ViewModel() {
     val progressbar: LiveData<ProgressBar>
         get() = _progressbar
 
-    private val _stringBar = MutableLiveData<String>()
-    val stringBar: LiveData<String>
-        get() = _stringBar
+    private val _rightAnswers = MutableLiveData<Int>()
+    val rightAnswers: LiveData<Int>
+        get() = _rightAnswers
+
+    private val _totalAnswersNeed = MutableLiveData<Int>()
+    val totalAnswersNeed: LiveData<Int>
+        get() = _totalAnswersNeed
 
     private val _summ = MutableLiveData<Int>()
     val summ: LiveData<Int>
@@ -53,18 +64,42 @@ class PlayViewModel : ViewModel() {
     val visibleNum: LiveData<Int>
         get() = _visibleNum
 
+    private val _percentageCalculated = MutableLiveData<Int>()
+    val percentage: LiveData<Int>
+        get() = _percentageCalculated
+
+    private val _percentageGiven = MutableLiveData<Int>()
+    val percentageGiven: LiveData<Int>
+        get() = _percentageGiven
+
+    private val _finishGame = MutableLiveData<Unit>()
+    val finishGame: LiveData<Unit>
+        get() = _finishGame
+
+
+    private val _totalQuestions = MutableLiveData<Int>()
+    val totalQuestions: LiveData<Int>
+        get() = _totalQuestions
 
     fun startGame(gameSettings: GameSettings) {
         unPackGameSettings(gameSettings)
+ 
         setTimer()
+        setProgressBar()
         setQuestion()
-        //finishGame()
+
     }
 
     fun sendAnswer(answer: Int) {
         if (answer == solution) {
             isItRightAnswer(true)
+            _rightAnswers.value = answered
         } else isItRightAnswer(false)
+        _totalAnswersNeed.value = toSolveQuestions
+        _totalQuestions.value = countOfAnswers
+        val stringToSend =
+            String.format("Правильных ответов: %s. Необходимо %s", answered, toSolveQuestions)
+        _stringInfo.value = stringToSend
     }
 
 
@@ -74,22 +109,35 @@ class PlayViewModel : ViewModel() {
             answered++
         }
         countOfAnswers++
+        calculatePercentage()
         setQuestion()
+    }
+
+    private fun setProgressBar() {
+        _totalAnswersNeed.value = toSolveQuestions
+        _rightAnswers.value = this.answered
+        _percentageGiven.value = this.winPercentage
+
     }
 
     private fun setQuestion() {
         _question.value = generateQuestion()
+        _summ.value = sum
+        _visibleNum.value = visibleNumber
     }
 
     private fun generateQuestion(): Question {
         return GetQuestionUseCase(repository).invoke(level).apply {
-             this@PlayViewModel.sum = this.sum
-             this@PlayViewModel.visibleNumber = this.visibleNumber
+            this@PlayViewModel.sum = this.sum
+            this@PlayViewModel.visibleNumber = this.visibleNumber
+            this@PlayViewModel.solution = this.solution
+
         }
     }
 
 
     private fun finishGame() {
+        _finishGame.value = Unit
 
     }
 
@@ -106,11 +154,18 @@ class PlayViewModel : ViewModel() {
         }.start()
     }
 
+    private fun calculatePercentage() {
+        val percentage = (answered * 1.00 / countOfAnswers * 1.00) * 100
+        val intPercentage = percentage.toInt()
+        _percentageCalculated.value = intPercentage
+        _percentageGiven.value = winPercentage
+    }
+
     private fun formatTime(l: Long): String {
         val seconds = 60
         val minutes = l / seconds
         val seconds_ = l - minutes
-        return String.format("02%d:02d%", minutes, seconds_)
+        return String.format("%02d:%02d", minutes, seconds_)
     }
 
     override fun onCleared() {
@@ -127,6 +182,12 @@ class PlayViewModel : ViewModel() {
     }
 
     companion object {
+
+        fun createInstance(fragment: PlayFragment) : PlayViewModel{
+
+            return PlayViewModel()
+        }
+
         private const val TIMER_TICK = 1000L
         private const val COMES_WITH_GAMESETTINGS = 0
         private const val TO_BE_ITERABLE = 0

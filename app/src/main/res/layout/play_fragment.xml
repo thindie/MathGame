@@ -55,7 +55,7 @@
         android:layout_width="80dp"
         android:layout_height="0dp"
         android:background="@color/teal_200"
-        android:text="/?"
+        android:text="\?"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintStart_toStartOf="@id/tv_digit"
         app:layout_constraintEnd_toEndOf="parent"
@@ -65,11 +65,14 @@
         />
 
     <TextView
-        style="@style/tv_playView_style"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:textAlignment="gravity"
+        android:textSize="16sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#29B6F6"
-        android:text="progress"
+        android:background="#004CAF50"
+        android:text=""
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -80,9 +83,11 @@
 
 
     <androidx.core.widget.ContentLoadingProgressBar
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/pb_progress"
+        android:visibility="visible"
         app:layout_constraintTop_toBottomOf="@id/tv_progress"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

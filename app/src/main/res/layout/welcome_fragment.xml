@@ -4,6 +4,20 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="C П О Р И М  - не выйдет?!"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="30sp"
+        android:background="#B3E5FC"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
     <ImageView
         android:id="@+id/im_welcome"
         android:layout_width="wrap_content"
@@ -19,9 +33,12 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="text"
+        android:text="\n игра: \n число внутри окружности \n минус \n видимое значение числа"
         android:textAlignment="center"
-        android:textSize="40sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="30sp"
+        android:background="#B3E5FC"
         app:layout_constraintBottom_toTopOf="@id/bu_play"
         app:layout_constraintTop_toBottomOf="@+id/im_welcome"
         />

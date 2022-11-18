@@ -67,6 +67,7 @@ class ChoseLevelFragment : Fragment() {
         requireActivity().supportFragmentManager
             .beginTransaction()
             .replace(R.id.lay_main, playFragment)
+            .addToBackStack(ChoseLevelFragment.NAME)
             .commit()
     }
 
@@ -76,7 +77,7 @@ class ChoseLevelFragment : Fragment() {
     }
 
     companion object {
-        const val NAME = "name"
+        const val NAME = "ChoseLevelFragmnt"
         fun instance(): ChoseLevelFragment = ChoseLevelFragment()
     }
 
