@@ -36,13 +36,7 @@ class ChoseLevelFragment : Fragment() {
 
     private fun setupClickListeners() {
         with(binding) {
-            buTest.setOnClickListener {
-                gameSettings = GetGameSettingsUseCase(mathGameRepository)
-                    .invoke(Level.TEST)
-                launchGame(
-                    PlayFragment.instance(gameSettings)
-                )
-            }
+
             buEasy.setOnClickListener {
                 gameSettings = GetGameSettingsUseCase(mathGameRepository).invoke(Level.EASY)
                 launchGame(PlayFragment.instance(gameSettings))

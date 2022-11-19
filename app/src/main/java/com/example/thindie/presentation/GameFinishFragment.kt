@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import com.example.thindie.R
 import com.example.thindie.databinding.GamefinishFragmentBinding
 import com.example.thindie.domain.entities.GameResults
@@ -39,11 +38,22 @@ class GameFinishFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.buFinish.setOnClickListener { requireActivity().onBackPressed()
+        binding.buFinish.setOnClickListener {
+            requireActivity().onBackPressed()
 
         }
-        if(gameResults.isWinner){binding.imResult.setImageResource(R.drawable.happy)}
-        else binding.imResult.setImageResource(R.drawable.sad)
+        if (gameResults.isWinner) {
+
+            binding.imResult.setImageResource(R.drawable.happy)
+            binding.tvString1.text = "немного умеете в математику ;)"
+        } else {
+            binding.imResult.setImageResource(R.drawable.sad)
+            binding.tvString1.text = "практикуйтесь!"
+        }
+        binding.tvString2.text = "в целом - Вы ответили на ${gameResults.solvedQuestions}" +
+                " из ${gameResults.totalQuestions} вопросов!"
+
+
     }
 
     override fun onDestroyView() {
@@ -61,7 +71,7 @@ class GameFinishFragment : Fragment() {
         )
     }
 
-    private fun tryAgain(){
+    private fun tryAgain() {
         requireActivity().supportFragmentManager
             .popBackStack()
         requireActivity().supportFragmentManager
