@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    android:layout_marginTop="20dp">
+
+    <TextView
+        android:textStyle="bold"
+        android:textColor="@color/purple_500"
+        android:id="@+id/time_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0:00"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/sum"
+        style="@style/QuestionTextStyle"
+        android:layout_width="144dp"
+        android:layout_height="144dp"
+        android:background="@drawable/shape"
+        android:backgroundTint="#FFCA28"
+        android:text="1"
+        app:layout_constraintBottom_toTopOf="@+id/plus"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/time_count"
+
+        app:layout_constraintVertical_chainStyle="spread" />
+
+    <TextView
+        android:id="@+id/visible_number"
+        style="@style/QuestionTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="#F06292"
+        app:layout_constraintBottom_toTopOf="@id/answers_progress"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="2" />
+
+    <TextView
+        android:id="@+id/question"
+        style="@style/QuestionTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="#FF8A65"
+        app:layout_constraintBottom_toTopOf="@id/answers_progress"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="\?"
+        tools:text="\?" />
+
+    <TextView
+        android:id="@+id/plus"
+        style="@style/QuestionTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@id/answers_progress"
+        app:layout_constraintDimensionRatio="1.95:1"
+        app:layout_constraintEnd_toStartOf="@+id/question"
+        app:layout_constraintStart_toEndOf="@id/visible_number"
+        app:layout_constraintTop_toBottomOf="@+id/sum"
+        tools:text="+" />
+
+    <TextView
+        android:id="@+id/OPT_ONE"
+        style="@style/OptionTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="#64B5F6"
+        android:focusable="true"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintDimensionRatio="1.71:1"
+        tools:text="A" />
+
+    <TextView
+        android:id="@+id/OPT_TWO"
+        style="@style/OptionTextStyle"
+        android:layout_width="0dp"
+        android:focusable="true"
+        android:clickable="true"
+        android:layout_height="wrap_content"
+        android:background="#E57373"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1.71:1"
+        app:layout_constraintStart_toEndOf="@id/OPT_ONE"
+        tools:text="B" />
+
+    <TextView
+        style="@style/OptionTextStyle"
+        android:id="@+id/OPT_THREE"
+        android:layout_width="0dp"
+        android:focusable="true"
+        android:clickable="true"
+        android:layout_height="wrap_content"
+        android:background="#81C784"
+        app:layout_constraintDimensionRatio="1.71:1"
+        tools:text="C"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/OPT_TWO"
+        />
+
+    <TextView
+        android:id="@+id/OPT_FOUR"
+        style="@style/OptionTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="#FFE082"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintBottom_toTopOf="@id/OPT_ONE"
+        app:layout_constraintDimensionRatio="1.71:1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/OPT_FIVE"
+        tools:text="D" />
+
+    <TextView
+        style="@style/OptionTextStyle"
+        android:id="@+id/OPT_FIVE"
+        android:layout_width="0dp"
+        android:focusable="true"
+        android:clickable="true"
+        android:layout_height="wrap_content"
+        android:background="#80DEEA"
+        app:layout_constraintBottom_toTopOf="@id/OPT_TWO"
+        app:layout_constraintStart_toEndOf="@id/OPT_FOUR"
+        app:layout_constraintDimensionRatio="1.71:1"
+        tools:text="E"
+        />
+
+    <TextView
+        style="@style/OptionTextStyle"
+        android:id="@+id/OPT_SIX"
+        android:layout_width="0dp"
+        android:focusable="true"
+        android:clickable="true"
+        android:layout_height="wrap_content"
+        android:background="#FFAB91"
+        app:layout_constraintBottom_toTopOf="@id/OPT_THREE"
+        app:layout_constraintStart_toEndOf="@id/OPT_FIVE"
+        app:layout_constraintDimensionRatio="1.71:1"
+        tools:text="F"
+        />
+
+    <TextView
+
+        android:id="@+id/answers_progress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_marginBottom="1dp"
+        android:background="#FFE082"
+        android:text="@string/process_text"
+        app:layout_constraintBottom_toTopOf="@+id/contentLoadingProgressBar"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="" />
+
+
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:id="@+id/contentLoadingProgressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:max="100"
+        android:secondaryProgressTint="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/OPT_FIVE"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/plus" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
