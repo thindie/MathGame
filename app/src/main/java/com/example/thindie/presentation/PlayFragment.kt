@@ -8,11 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
-import com.example.thindie.R
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.thindie.databinding.PlayFragmentBinding
 import com.example.thindie.domain.entities.GameResults
 import com.example.thindie.domain.entities.GameSettings
@@ -23,21 +22,24 @@ class PlayFragment : Fragment() {
     private val binding: PlayFragmentBinding
         get() = _binding ?: throw RuntimeException("Binding in ${this::class.java} == null")
 
+    private val _args by navArgs<PlayFragmentArgs>()
+    private lateinit var gameSettings: GameSettings
     private val viewModel: PlayViewModel by lazy {
         ViewModelProvider(
-            this, PlayViewModelFactory(gameSettings))[PlayViewModel::class.java]
+            this, PlayViewModelFactory(
+                gameSettings
+            )
+        )[PlayViewModel::class.java]
 
     }
-    private lateinit var gameSettings: GameSettings
+
     private lateinit var gameResults: GameResults
     private var listOfAnswerOptions: List<Int>? = COMES_WITH_VIEW_OBSERVE
     private var listTextViewOptions: List<TextView>? = COMES_WITH_VIEW_OBSERVE
 
-
     override fun onAttach(context: Context) {
+        gameSettings = _args.gameSettings
         super.onAttach(context)
-        gameSettings = requireArguments()
-            .getParcelable<GameSettings>(GAME_SETTINGS) as GameSettings
     }
 
     override fun onCreateView(
@@ -45,7 +47,7 @@ class PlayFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        fixingOnBackPress()
+
         _binding = PlayFragmentBinding
             .inflate(inflater, container, false)
         return binding.root
@@ -56,14 +58,11 @@ class PlayFragment : Fragment() {
         setGameFinishCause()
         setTimer()
         setAnswerOptions()
-
-
     }
 
 
     private fun setProgressBar() {
         val progressBar = binding.pbProgress
-
         var totalAnswersNeed = 0
         var percentageGiven = 0
         progressBar.show()
@@ -121,7 +120,6 @@ class PlayFragment : Fragment() {
     }
 
     private fun setAnswerOptions() {
-
         with(viewModel) {
             question.observe(viewLifecycleOwner) {
                 listOfAnswerOptions = it.listOfVariants
@@ -175,7 +173,6 @@ class PlayFragment : Fragment() {
         }
 
         viewModel.finishGame.observe(viewLifecycleOwner) {
-
             val isWinner = (pCalc >= pGiven && rAnw >= nAnw)
             var totalQuestion = 0
             viewModel.totalQuestions.observe(viewLifecycleOwner) {
@@ -188,11 +185,10 @@ class PlayFragment : Fragment() {
                 isWinner
             )
 
-            val finishFragment = GameFinishFragment.instance(gameResults)
-            requireActivity().supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.lay_main, finishFragment)
-                .commit()
+            findNavController().navigate(
+                PlayFragmentDirections
+                    .actionPlayFragmentToGameFinishFragment(gameResults)
+            )
         }
 
     }
@@ -202,31 +198,9 @@ class PlayFragment : Fragment() {
         _binding = null
     }
 
-    private fun fixingOnBackPress() {
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,
-            object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                    tryAgain()
-                }
-            }
-        )
-    }
-
-    private fun tryAgain() {
-        requireActivity().supportFragmentManager
-            .popBackStack(ChoseLevelFragment.NAME, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-    }
 
     companion object {
-        const val NAME = "name"
         private val COMES_WITH_VIEW_OBSERVE = null
         private const val WILL_BE_SETTED_HERE = 0
-        private const val GAME_SETTINGS = "settings"
-        private const val NOT_SET_YET = 0
-        fun instance(gameSettings: GameSettings) = PlayFragment().apply {
-            arguments = Bundle().apply {
-                putParcelable(GAME_SETTINGS, gameSettings)
-            }
-        }
     }
 }

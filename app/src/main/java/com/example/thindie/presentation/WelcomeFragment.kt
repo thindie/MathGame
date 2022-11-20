@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.thindie.R
 import com.example.thindie.databinding.WelcomeFragmentBinding
 
@@ -33,18 +34,8 @@ class WelcomeFragment : Fragment() {
 
     private fun setButtonClickListener() {
         binding.buPlay.setOnClickListener {
-            requireActivity().supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.lay_main, ChoseLevelFragment.instance())
-                .commit()
+            findNavController().navigate(R.id.action_welcomeFragment_to_choseLevelFragment)
         }
-
-
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-
     }
 
     override fun onDestroy() {
@@ -52,10 +43,4 @@ class WelcomeFragment : Fragment() {
         _binding = null
     }
 
-    companion object {
-        const val NAME = "name"
-        fun instance(): WelcomeFragment {
-            return WelcomeFragment()
-        }
-    }
 }

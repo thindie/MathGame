@@ -1,6 +1,6 @@
 package com.example.thindie.presentation
 
-import android.app.Application
+
 import android.os.CountDownTimer
 import android.widget.ProgressBar
 import androidx.lifecycle.LiveData
@@ -13,11 +13,11 @@ import com.example.thindie.domain.entities.Question
 import com.example.thindie.domain.useCase.GetQuestionUseCase
 
 class PlayViewModel(
-    private val gameSettings: GameSettings
+    gameSettings: GameSettings
 ) : ViewModel() {
 
 
-    private  var gameSetting: GameSettings
+    private var gameSetting: GameSettings = gameSettings
     private lateinit var level: Level
     private val repository = MathGameRepositoryImpl
     private var timer: CountDownTimer? = null
@@ -83,18 +83,15 @@ class PlayViewModel(
         get() = _totalQuestions
 
     init {
-        gameSetting = gameSettings
-        startGame(gameSetting)
+        startGame()
     }
 
 
-
-    private fun startGame(gameSettings: GameSettings) {
-        unPackGameSettings(gameSettings)
+    private fun startGame() {
+        unPackGameSettings(gameSetting)
         setTimer()
         setProgressBar()
         setQuestion()
-
     }
 
     fun sendAnswer(answer: Int) {
@@ -181,7 +178,6 @@ class PlayViewModel(
     }
 
     private fun unPackGameSettings(gameSettings: GameSettings) {
-        gameSetting = gameSettings
         level = gameSetting.level
         playingTime = gameSetting.playingTime
         toSolveQuestions = gameSetting.solvedQuestions
