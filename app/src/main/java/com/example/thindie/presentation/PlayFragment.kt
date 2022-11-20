@@ -23,18 +23,19 @@ class PlayFragment : Fragment() {
     private val binding: PlayFragmentBinding
         get() = _binding ?: throw RuntimeException("Binding in ${this::class.java} == null")
 
-    private lateinit var viewModel: PlayViewModel
+    private val viewModel: PlayViewModel by lazy {
+        ViewModelProvider(
+            this, PlayViewModelFactory(gameSettings))[PlayViewModel::class.java]
+
+    }
     private lateinit var gameSettings: GameSettings
     private lateinit var gameResults: GameResults
-
     private var listOfAnswerOptions: List<Int>? = COMES_WITH_VIEW_OBSERVE
     private var listTextViewOptions: List<TextView>? = COMES_WITH_VIEW_OBSERVE
-    private var _context: Context? = null
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-
-        _context = context
         gameSettings = requireArguments()
             .getParcelable<GameSettings>(GAME_SETTINGS) as GameSettings
     }
@@ -52,7 +53,6 @@ class PlayFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setViewModel()
         setGameFinishCause()
         setTimer()
         setAnswerOptions()
@@ -151,11 +151,6 @@ class PlayFragment : Fragment() {
         }
     }
 
-    private fun setViewModel() {
-        viewModel = PlayViewModel.createInstance(this)
-        viewModel = ViewModelProvider(this)[PlayViewModel::class.java]
-        viewModel.startGame(gameSettings)
-    }
 
     private fun setGameFinishCause() {
         var pGiven = WILL_BE_SETTED_HERE
@@ -190,7 +185,8 @@ class PlayFragment : Fragment() {
             gameResults = GameResults(
                 solvedQuestions = rAnw,
                 totalQuestions = totalQuestion,
-                isWinner)
+                isWinner
+            )
 
             val finishFragment = GameFinishFragment.instance(gameResults)
             requireActivity().supportFragmentManager

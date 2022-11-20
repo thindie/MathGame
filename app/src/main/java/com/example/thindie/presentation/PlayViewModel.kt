@@ -1,10 +1,8 @@
 package com.example.thindie.presentation
 
-import android.content.Context
-import android.os.Bundle
+import android.app.Application
 import android.os.CountDownTimer
 import android.widget.ProgressBar
-import androidx.core.widget.ContentLoadingProgressBar
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,9 +12,12 @@ import com.example.thindie.domain.entities.Level
 import com.example.thindie.domain.entities.Question
 import com.example.thindie.domain.useCase.GetQuestionUseCase
 
-class PlayViewModel : ViewModel() {
+class PlayViewModel(
+    private val gameSettings: GameSettings
+) : ViewModel() {
 
-    private lateinit var gameSetting: GameSettings
+
+    private  var gameSetting: GameSettings
     private lateinit var level: Level
     private val repository = MathGameRepositoryImpl
     private var timer: CountDownTimer? = null
@@ -81,9 +82,15 @@ class PlayViewModel : ViewModel() {
     val totalQuestions: LiveData<Int>
         get() = _totalQuestions
 
-    fun startGame(gameSettings: GameSettings) {
+    init {
+        gameSetting = gameSettings
+        startGame(gameSetting)
+    }
+
+
+
+    private fun startGame(gameSettings: GameSettings) {
         unPackGameSettings(gameSettings)
- 
         setTimer()
         setProgressBar()
         setQuestion()
@@ -115,8 +122,8 @@ class PlayViewModel : ViewModel() {
 
     private fun setProgressBar() {
         _totalAnswersNeed.value = toSolveQuestions
-        _rightAnswers.value = this.answered
-        _percentageGiven.value = this.winPercentage
+        _rightAnswers.value = answered
+        _percentageGiven.value = winPercentage
 
     }
 
@@ -183,10 +190,6 @@ class PlayViewModel : ViewModel() {
 
     companion object {
 
-        fun createInstance(fragment: PlayFragment) : PlayViewModel{
-
-            return PlayViewModel()
-        }
 
         private const val TIMER_TICK = 1000L
         private const val COMES_WITH_GAMESETTINGS = 0
