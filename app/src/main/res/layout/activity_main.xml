@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.fragment.app.FragmentContainerView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout><androidx.fragment.app.FragmentContainerView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="wrap_content"
+    android:id="@+id/lay_main"
     android:layout_width="match_parent"
-    android:id="@+id/main_container"
-    android:name="com.example.thindie.presentation.WelcomeFragment"
-    tools:context=".presentation.MainActivity">
+    android:layout_height="match_parent"
+    tools:context=".presentation.MainActivity"
+    android:name="androidx.navigation.fragment.NavHostFragment"
+    tools:layout="@layout/welcome_fragment"
+    app:defaultNavHost="true"
+    app:navGraph="@navigation/main_navigation">
 
-</androidx.fragment.app.FragmentContainerView>
+</androidx.fragment.app.FragmentContainerView></layout>

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout>
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tv_timer"
+            style="@style/tv_options_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:background="@color/purple_700"
+            android:text="0:00"
+            app:layout_constraintBottom_toTopOf="@id/tv_sum"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_sum"
+            style="@style/tv_playView_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/_shape_blueborder"
+            android:gravity="center"
+            android:text="7"
+            android:textAlignment="gravity"
+            android:textColor="@color/black"
+            android:textSize="64sp"
+            app:layout_constraintBottom_toTopOf="@id/tv_digit"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_timer" />
+
+        <TextView
+            android:id="@+id/tv_digit"
+            style="@style/tv_playView_style"
+            android:layout_width="80dp"
+            android:layout_height="0dp"
+            android:background="#AB47BC"
+            android:text="1"
+            app:layout_constraintBottom_toTopOf="@id/tv_progress"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="@id/tv_solution"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_sum" />
+
+        <TextView
+            android:id="@+id/tv_solution"
+            style="@style/tv_playView_style"
+            android:layout_width="80dp"
+            android:layout_height="0dp"
+            android:background="@color/teal_200"
+            android:text="\?"
+            app:layout_constraintBottom_toTopOf="@id/tv_progress"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/tv_digit"
+            app:layout_constraintTop_toBottomOf="@id/tv_sum" />
+
+        <TextView
+            android:id="@+id/tv_progress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#004CAF50"
+            android:gravity="center"
+            android:text=""
+            android:textAlignment="gravity"
+            android:textColor="@color/white"
+
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@id/pb_progress"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_digit" />
+
+
+        <androidx.core.widget.ContentLoadingProgressBar
+            android:id="@+id/pb_progress"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@id/tv_option2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_progress" />
+
+
+        <TextView
+            android:id="@+id/tv_option1"
+            style="@style/tv_playView_style"
+            android:background="#42A5F5"
+            android:text="A"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_option2"
+            style="@style/tv_playView_style"
+            android:background="#FFEE58"
+            android:text="B"
+            app:layout_constraintBottom_toTopOf="@id/tv_option1"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_option3"
+            style="@style/tv_playView_style"
+            android:background="#FF7043"
+            android:text="C"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_option1" />
+
+        <TextView
+            android:id="@+id/tv_option4"
+            style="@style/tv_playView_style"
+            android:background="#66BB6A"
+            android:text="D"
+            app:layout_constraintBottom_toTopOf="@id/tv_option3"
+            app:layout_constraintStart_toEndOf="@id/tv_option2" />
+
+        <TextView
+            android:id="@+id/tv_option5"
+            style="@style/tv_playView_style"
+            android:background="#26C6DA"
+            android:text="E"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_option4" />
+
+        <TextView
+            android:id="@+id/tv_option6"
+            style="@style/tv_playView_style"
+            android:background="#EF5350"
+            android:text="F"
+            app:layout_constraintBottom_toTopOf="@id/tv_option5"
+            app:layout_constraintStart_toEndOf="@id/tv_option4" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
