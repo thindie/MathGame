@@ -88,7 +88,7 @@ class PlayViewModel(
 
 
     private fun startGame() {
-        unPackGameSettings(gameSetting)
+        unPackGameSettings()
         setTimer()
         setProgressBar()
         setQuestion()
@@ -177,7 +177,7 @@ class PlayViewModel(
         timer?.cancel()
     }
 
-    private fun unPackGameSettings(gameSettings: GameSettings) {
+    private fun unPackGameSettings() {
         level = gameSetting.level
         playingTime = gameSetting.playingTime
         toSolveQuestions = gameSetting.solvedQuestions

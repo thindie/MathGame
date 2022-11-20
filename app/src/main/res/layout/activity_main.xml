@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.fragment.app.FragmentContainerView xmlns:android="http://schemas.android.com/apk/res/android"
+<layout><androidx.fragment.app.FragmentContainerView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/lay_main"
@@ -9,7 +9,6 @@
     android:name="androidx.navigation.fragment.NavHostFragment"
     tools:layout="@layout/welcome_fragment"
     app:defaultNavHost="true"
-    app:navGraph="@navigation/main_navigation"    >
+    app:navGraph="@navigation/main_navigation">
 
-
-</androidx.fragment.app.FragmentContainerView>
+</androidx.fragment.app.FragmentContainerView></layout>

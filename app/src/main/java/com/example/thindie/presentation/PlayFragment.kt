@@ -60,7 +60,6 @@ class PlayFragment : Fragment() {
         setAnswerOptions()
     }
 
-
     private fun setProgressBar() {
         val progressBar = binding.pbProgress
         var totalAnswersNeed = 0
@@ -182,7 +181,9 @@ class PlayFragment : Fragment() {
             gameResults = GameResults(
                 solvedQuestions = rAnw,
                 totalQuestions = totalQuestion,
-                isWinner
+                isWinner,
+                gameSettings,
+                pCalc
             )
 
             findNavController().navigate(
