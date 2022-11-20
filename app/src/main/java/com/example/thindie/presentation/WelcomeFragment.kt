@@ -16,6 +16,7 @@ class WelcomeFragment : Fragment() {
         get() = _binding ?: throw RuntimeException("Binding in ${this::class.java} == null")
 
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

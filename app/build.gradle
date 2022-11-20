@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+
     id ("kotlin-parcelize")
     id 'androidx.navigation.safeargs'
     id 'kotlin-kapt'
@@ -34,9 +35,12 @@ android {
         jvmTarget = '1.8'
     }
     buildFeatures{
+    
         dataBinding = true
     }
+
 }
+
 
 dependencies {
 
