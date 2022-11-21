@@ -1,10 +1,9 @@
-package com.example.thindie.domain.entities
+package com.example.thindie.domain.entity
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
-
 @Parcelize
 enum class Level : Parcelable {
-     EASY, NORMAl, HARD
+     EASY, NORMAL, HARD
 }

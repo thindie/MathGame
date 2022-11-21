@@ -1,5 +1,8 @@
 package com.example.thindie.presentation
 
+
+import android.content.Context
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +10,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.thindie.R
+
 import com.example.thindie.databinding.WelcomeFragmentBinding
 
 class WelcomeFragment : Fragment() {
@@ -15,11 +19,21 @@ class WelcomeFragment : Fragment() {
     private val binding: WelcomeFragmentBinding
         get() = _binding ?: throw RuntimeException("Binding in ${this::class.java} == null")
 
+import com.example.thindie.databinding.FragmentWelcomeBinding
+
+class WelcomeFragment : Fragment() {
+
+    private var _binding: FragmentWelcomeBinding? = null
+    private val binding: FragmentWelcomeBinding
+        get() = _binding ?: throw RuntimeException("binding = null")
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
+
     ): View {
         _binding = WelcomeFragmentBinding
             .inflate(inflater, container, false)
@@ -40,7 +54,11 @@ class WelcomeFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
+
+
         _binding = null
     }
 
+
 }
+

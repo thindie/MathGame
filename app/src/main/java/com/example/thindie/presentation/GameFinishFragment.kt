@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+
 import com.example.thindie.databinding.GamefinishFragmentBinding
 import com.example.thindie.domain.entities.GameResults
 
@@ -33,12 +34,25 @@ class GameFinishFragment : Fragment() {
         gameResults = _args.gameResults
         binding.gameResult = _args.gameResults
         binding.buFinish.setOnClickListener { tryAgain() }
+
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
+
+    private fun fixingOnBackPress() {
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    tryAgain()
+                }
+            }
+        )
+    }
+
 
 
     private fun tryAgain() {
