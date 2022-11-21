@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.thindie.R
 import com.example.thindie.data.MathGameRepositoryImpl
 import com.example.thindie.databinding.ChoselevelFragmentBinding
@@ -39,31 +40,29 @@ class ChoseLevelFragment : Fragment() {
 
             buEasy.setOnClickListener {
                 gameSettings = GetGameSettingsUseCase(mathGameRepository).invoke(Level.EASY)
-                launchGame(PlayFragment.instance(gameSettings))
+                launchGame()
             }
             buNormal.setOnClickListener {
                 gameSettings = GetGameSettingsUseCase(mathGameRepository)
                     .invoke(Level.NORMAl)
-                launchGame(PlayFragment.instance(gameSettings))
+                launchGame()
             }
             buHard.setOnClickListener {
                 gameSettings = GetGameSettingsUseCase(mathGameRepository)
                     .invoke(Level.HARD)
-                launchGame(
-                    PlayFragment.instance(gameSettings)
-                )
+                launchGame()
             }
         }
     }
 
 
-    private fun launchGame(playFragment: PlayFragment) {
-        requireActivity().supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.lay_main, playFragment)
-            .addToBackStack(ChoseLevelFragment.NAME)
-            .commit()
+    private fun launchGame() {
+        findNavController().navigate(ChoseLevelFragmentDirections
+            .actionChoseLevelFragmentToPlayFragment(gameSettings))
+
+
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -71,8 +70,8 @@ class ChoseLevelFragment : Fragment() {
     }
 
     companion object {
-        const val NAME = "ChoseLevelFragmnt"
-        fun instance(): ChoseLevelFragment = ChoseLevelFragment()
+
+
     }
 
 

@@ -1,36 +1,29 @@
 package com.example.thindie.presentation
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
-import com.example.thindie.R
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+
 import com.example.thindie.databinding.GamefinishFragmentBinding
 import com.example.thindie.domain.entities.GameResults
 
 class GameFinishFragment : Fragment() {
+    private val _args by navArgs<GameFinishFragmentArgs>()
     private lateinit var gameResults: GameResults
     private var _binding: GamefinishFragmentBinding? = null
     private val binding: GamefinishFragmentBinding
         get() = _binding ?: throw RuntimeException("Binding in ${this::class.java} == null")
 
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        gameResults = requireArguments()
-            .getParcelable<GameResults>(GAME_RESULT) as GameResults
-
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        fixingOnBackPress()
         _binding = GamefinishFragmentBinding
             .inflate(inflater, container, false)
         return binding.root
@@ -38,21 +31,9 @@ class GameFinishFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.buFinish.setOnClickListener {
-            requireActivity().onBackPressed()
-
-        }
-        if (gameResults.isWinner) {
-
-            binding.imResult.setImageResource(R.drawable.happy)
-            binding.tvString1.text = "немного умеете в математику ;)"
-        } else {
-            binding.imResult.setImageResource(R.drawable.sad)
-            binding.tvString1.text = "практикуйтесь!"
-        }
-        binding.tvString2.text = "в целом - Вы ответили на ${gameResults.solvedQuestions}" +
-                " из ${gameResults.totalQuestions} вопросов!"
-
+        gameResults = _args.gameResults
+        binding.gameResult = _args.gameResults
+        binding.buFinish.setOnClickListener { tryAgain() }
 
     }
 
@@ -60,6 +41,7 @@ class GameFinishFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
 
     private fun fixingOnBackPress() {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,
@@ -71,26 +53,9 @@ class GameFinishFragment : Fragment() {
         )
     }
 
+
+
     private fun tryAgain() {
-        requireActivity().supportFragmentManager
-            .popBackStack()
-        requireActivity().supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.lay_main, ChoseLevelFragment.instance())
-            .commit()
-
-    }
-
-
-    companion object {
-        private const val NAME = "finish"
-        private const val GAME_RESULT = "result"
-        fun instance(gameResult: GameResults): GameFinishFragment {
-            return GameFinishFragment().apply {
-                arguments = Bundle().apply {
-                    putParcelable(GAME_RESULT, gameResult)
-                }
-            }
-        }
+        findNavController().popBackStack()
     }
 }

@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools">
+
+
+    <data>
+        <variable
+            name="gameResult"
+            type="com.example.thindie.domain.entities.GameResults" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -8,7 +17,7 @@
         android:id="@+id/im_result"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/sad"
+        app:im_adapter="@{gameResult.winner}"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -16,6 +25,7 @@
     <TextView
         android:id="@+id/tv_string1"
         style="@style/tv_finishScreen"
+        app:tv_solvedQuestions_adapter="@{gameResult.solvedQuestions}"
         app:layout_constraintStart_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/im_result"
@@ -24,6 +34,7 @@
     <TextView
         android:id="@+id/tv_string2"
         style="@style/tv_finishScreen"
+        app:tv_total_adapter="@{gameResult.totalQuestions}"
         app:layout_constraintStart_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_string1"
@@ -33,6 +44,7 @@
     <TextView
         android:id="@+id/tv_string3"
         style="@style/tv_finishScreen"
+        app:tv_percentage="@{gameResult}"
         app:layout_constraintStart_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_string2"
@@ -49,4 +61,4 @@
 
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout></layout>
